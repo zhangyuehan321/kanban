@@ -1,4 +1,6 @@
 import { createBrowserRouter } from "react-router-dom"
+// import { Board } from "../pages/Borad"
+import { Board } from "@/pages/Borad"
 
 const routes = [
   {
@@ -8,7 +10,7 @@ const routes = [
   },
   {
     path: '/board',
-    element: <div> Board</div>,
+    element: <Board />,
   },
 ]
 
