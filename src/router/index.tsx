@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom"
 // import { Board } from "../pages/Borad"
-import { Board } from "@/pages/Borad"
+import { BoardPage } from "@/pages/Borad"
 
 const routes = [
   {
@@ -10,7 +10,7 @@ const routes = [
   },
   {
     path: '/board',
-    element: <Board />,
+    element: <BoardPage />,
   },
 ]
 
