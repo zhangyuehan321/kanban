@@ -1,4 +1,5 @@
 import { useKanBan } from "@/stores/useKanBan";
+import { Button } from "@/components/ui/button";
 
 export const Board = () => {
     const { borads, createBoard } = useKanBan();
@@ -6,6 +7,6 @@ export const Board = () => {
     borads.map((board) => (
         <div key={board.id}>{board.name}</div>
     ))}
-    <button className="bg-blue-500 text-white p-2 rounded-md" onClick={() => createBoard({ id: `{Board.length + 1}`, name: 'Board 1' })}>Create Board</button>
+    <Button onClick={() => createBoard({ id: `{Board.length + 1}`, name: 'Board 1' })}>Create Board</Button>
     </div>
 }
