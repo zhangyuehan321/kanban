@@ -6,13 +6,13 @@ interface Board {
 }
 //集中状态管理
 export const useKanBan = create<{
-    borads: Board[];
+    boards: Board[];
     createBoard: (board: Board) => void;
 }>((set) => ({ 
-    borads: [],
+    boards: [],
     createBoard: (board: Board) => {
         set((state) => ({
-            borads: [...state.borads, board],
+            boards: [...state.boards, board],
         }));
     },
 }));
