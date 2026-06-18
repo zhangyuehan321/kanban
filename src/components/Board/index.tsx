@@ -1,4 +1,5 @@
 import { useKanBan } from "@/stores/useKanBan";
+import { Task } from "./Task";
 
 export const Board = () => {
     const { boards } = useKanBan();
@@ -13,13 +14,10 @@ export const Board = () => {
                             </div>
                             <div>
                                 {[0,1,2].map((item) => (
-                                    <div key={item} className="p-2 mb-1 rounded-md bg-white border-gray-100">
-                                        任务{item}
-                                    </div>
-                                ))}
+                                    <Task key={item} title={`任务${item}`} />
+                                ))} 
                             </div>
                         </div>
-                        {/* {boards.name} */}
                     </div>
                 </div>
             ))}
