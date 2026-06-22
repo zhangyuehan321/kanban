@@ -17,7 +17,7 @@ const getTargetGroupId = (
 };
 
 export const Board = () => {
-    const { boards, createTask, moveTask, moveGroup } = useKanBan();
+    const { boards, createTask, moveTask, reorderTask, moveGroup } = useKanBan();
 
     const handleDragEnd = ({ active, over }: DragEndEvent) => {
         if (!over) return;
@@ -41,7 +41,19 @@ export const Board = () => {
         const taskId = String(activeData.taskId);
         const toGroupId = getTargetGroupId(over.id, overData);
 
-        if (!fromGroupId || !taskId || !toGroupId || fromGroupId === toGroupId) return;
+        if (!fromGroupId || !taskId || !toGroupId) return;
+
+        if (fromGroupId === toGroupId) {
+            if (overData?.type === "task") {
+                const overTaskId = String(overData.taskId);
+                if (taskId !== overTaskId) {
+                    reorderTask(fromGroupId, taskId, overTaskId);
+                }
+            } else {
+                reorderTask(fromGroupId, taskId);
+            }
+            return;
+        }
 
         moveTask(taskId, fromGroupId, toGroupId);
     };

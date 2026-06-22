@@ -10,6 +10,7 @@ export const useKanBan = create<{
   createBoard: (groupName: string) => Promise<void>;
   createTask: (groupId: string) => Promise<void>;
   moveTask: (taskId: string, fromGroupId: string, toGroupId: string) => Promise<void>;
+  reorderTask: (groupId: string, activeTaskId: string, overTaskId?: string) => Promise<void>;
   moveGroup: (activeGroupId: string, overGroupId: string) => Promise<void>;
 }>((set) => ({
   boards: [],
@@ -47,6 +48,11 @@ export const useKanBan = create<{
 
   moveTask: async (taskId, fromGroupId, toGroupId) => {
     const boards = await kanbanApi.moveTask(taskId, fromGroupId, toGroupId);
+    set({ boards });
+  },
+
+  reorderTask: async (groupId, activeTaskId, overTaskId) => {
+    const boards = await kanbanApi.reorderTask(groupId, activeTaskId, overTaskId);
     set({ boards });
   },
 

@@ -80,6 +80,45 @@ const server = createServer(async (req, res) => {
       return sendJson(res, 201, task);
     }
 
+    if (method === "PATCH" && pathname === "/api/tasks/reorder") {
+      const body = await parseBody(req);
+      const { groupId, activeTaskId, overTaskId } = body;
+      const data = readData();
+      const board = data.boards.find((item) => item.groupId === groupId);
+
+      if (!board) {
+        return sendJson(res, 404, { message: "Group not found" });
+      }
+
+      const activeIndex = board.tasks.findIndex(
+        (task) => String(task.id) === String(activeTaskId),
+      );
+      if (activeIndex === -1) {
+        return sendJson(res, 404, { message: "Task not found" });
+      }
+
+      if (overTaskId) {
+        const overIndex = board.tasks.findIndex(
+          (task) => String(task.id) === String(overTaskId),
+        );
+        if (overIndex === -1) {
+          return sendJson(res, 404, { message: "Target task not found" });
+        }
+        if (activeIndex !== overIndex) {
+          const tasks = board.tasks.slice();
+          const [moved] = tasks.splice(activeIndex, 1);
+          tasks.splice(overIndex, 0, moved);
+          board.tasks = tasks;
+        }
+      } else {
+        const [task] = board.tasks.splice(activeIndex, 1);
+        board.tasks.push(task);
+      }
+
+      writeData(data);
+      return sendJson(res, 200, data.boards);
+    }
+
     if (method === "PATCH" && pathname === "/api/tasks/move") {
       const body = await parseBody(req);
       const { taskId, fromGroupId, toGroupId } = body;

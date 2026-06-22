@@ -35,6 +35,12 @@ export const kanbanApi = {
       body: JSON.stringify({ taskId, fromGroupId, toGroupId }),
     }),
 
+  reorderTask: (groupId: string, activeTaskId: string, overTaskId?: string) =>
+    request<Board[]>("/api/tasks/reorder", {
+      method: "PATCH",
+      body: JSON.stringify({ groupId, activeTaskId, overTaskId }),
+    }),
+
   reorderGroups: (activeGroupId: string, overGroupId: string) =>
     request<Board[]>("/api/boards/reorder", {
       method: "PATCH",
