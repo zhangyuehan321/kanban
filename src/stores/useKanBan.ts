@@ -17,7 +17,8 @@ export const useKanBan = create<{
     updateBoard: (board: Board) => void;
     createTask: (groupId: string) => void;
     moveTask: (taskId: string, fromGroupId: string, toGroupId: string) => void;
-}>((set) => ({ 
+    moveGroup: (activeGroupId: string, overGroupId: string) => void;
+}>((set) => ({
     boards: [],
     createBoard: (board: Board) => {
         set((state) => ({
@@ -59,6 +60,21 @@ export const useKanBan = create<{
                     return b;
                 }),
             };
+        });
+    },
+    moveGroup: (activeGroupId: string, overGroupId: string) => {
+        set((state) => {
+            if (activeGroupId === overGroupId) return state;
+
+            const fromIndex = state.boards.findIndex((b) => b.groupId === activeGroupId);
+            const toIndex = state.boards.findIndex((b) => b.groupId === overGroupId);
+            if (fromIndex === -1 || toIndex === -1) return state;
+
+            const boards = [...state.boards];
+            const [moved] = boards.splice(fromIndex, 1);
+            boards.splice(toIndex, 0, moved);
+
+            return { boards };
         });
     },
 }));
