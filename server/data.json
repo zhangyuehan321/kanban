@@ -1,0 +1,42 @@
+{
+  "boards": [
+    {
+      "groupId": "group-2",
+      "groupName": "进行中",
+      "tasks": [
+        {
+          "id": "task-3",
+          "title": "开发后端接口"
+        },
+        {
+          "id": "6d0f5499-7d82-4070-b17e-25ad64862063",
+          "title": "新任务2"
+        }
+      ]
+    },
+    {
+      "groupId": "group-1",
+      "groupName": "待办",
+      "tasks": [
+        {
+          "id": "task-1",
+          "title": "设计看板原型"
+        },
+        {
+          "id": "7b87a3fe-104d-42db-8a39-7d05d5524024",
+          "title": "新任务2"
+        }
+      ]
+    },
+    {
+      "groupId": "group-3",
+      "groupName": "已完成",
+      "tasks": [
+        {
+          "id": "task-2",
+          "title": "接入拖拽功能"
+        }
+      ]
+    }
+  ]
+}
