@@ -3,20 +3,29 @@ import { Task } from "./Task";
 import { DndContext, type DragEndEvent } from "@dnd-kit/core";
 import { KanBanGroup } from "./KanBanGroup";
 
-const getGroupIdFromOverId = (overId: string | number) => {
-    const id = String(overId);
-    return id.includes("-") ? id.split("-")[0] : id;
-};
-
 export const Board = () => {
-    const { boards, updateBoard, moveTask } = useKanBan();
+    const { boards, createTask, moveTask } = useKanBan();
     const handleDragEnd = ({ active, over }: DragEndEvent) => {
         if (!over) return;
 
-        const [fromGroupId, taskId] = String(active.id).split("-");
-        const toGroupId = getGroupIdFromOverId(over.id);
+        const activeData = active.data.current;
+        const overData = over.data.current;
 
-        if (!fromGroupId || !taskId || fromGroupId === toGroupId) return;
+        if (activeData?.type !== "task") return;
+
+        const fromGroupId = activeData.groupId as string;
+        const taskId = String(activeData.taskId);
+
+        let toGroupId: string | undefined;
+        if (overData?.type === "kanban-group") {
+            toGroupId = overData.groupId as string;
+        } else if (overData?.type === "task") {
+            toGroupId = overData.groupId as string;
+        } else {
+            toGroupId = String(over.id);
+        }
+
+        if (!fromGroupId || !taskId || !toGroupId || fromGroupId === toGroupId) return;
 
         moveTask(taskId, fromGroupId, toGroupId);
     };
@@ -33,12 +42,17 @@ export const Board = () => {
                                     </div>
                                     <div>
                                         {board.tasks.map((item) => (
-                                            <Task key={item.id} title={item.title} id={`${board.groupId}-${item.id}`}/>
+                                            <Task
+                                                key={item.id}
+                                                groupId={board.groupId}
+                                                taskId={String(item.id)}
+                                                title={item.title}
+                                            />
                                         ))}
                                     </div>
                                 </div>
                             </div>
-                            <button onClick={() => updateBoard({ ...board, tasks: [...board.tasks, { id: String(board.tasks.length + 1), title: `新任务${board.tasks.length + 1}` }] })}>创建任务</button>
+                            <button onClick={() => createTask(board.groupId)}>创建任务</button>
                         </KanBanGroup>
                     </div>
                 ))}

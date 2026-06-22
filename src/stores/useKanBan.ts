@@ -15,6 +15,7 @@ export const useKanBan = create<{
     boards: Board[];
     createBoard: (board: Board) => void;
     updateBoard: (board: Board) => void;
+    createTask: (groupId: string) => void;
     moveTask: (taskId: string, fromGroupId: string, toGroupId: string) => void;
 }>((set) => ({ 
     boards: [],
@@ -26,6 +27,18 @@ export const useKanBan = create<{
     updateBoard: (board: Board) => {
         set((state) => ({
             boards: state.boards.map((b) => b.groupId === board.groupId ? board : b),
+        }));
+    },
+    createTask: (groupId: string) => {
+        set((state) => ({
+            boards: state.boards.map((b) => {
+                if (b.groupId !== groupId) return b;
+                const nextIndex = b.tasks.length + 1;
+                return {
+                    ...b,
+                    tasks: [...b.tasks, { id: crypto.randomUUID(), title: `新任务${nextIndex}` }],
+                };
+            }),
         }));
     },
     moveTask: (taskId: string, fromGroupId: string, toGroupId: string) => {
@@ -40,6 +53,7 @@ export const useKanBan = create<{
                         return { ...b, tasks: b.tasks.filter((t) => String(t.id) !== taskId) };
                     }
                     if (b.groupId === toGroupId) {
+                        if (b.tasks.some((t) => String(t.id) === taskId)) return b;
                         return { ...b, tasks: [...b.tasks, task] };
                     }
                     return b;

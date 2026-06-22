@@ -3,14 +3,17 @@ import { useDraggable } from "@dnd-kit/core";
 
 interface TaskProps {   
     title: string;
-    id: string|number;
+    groupId: string;
+    taskId: string;
 }
 
-export const Task = ({ title, id }: TaskProps) => {
+export const Task = ({ title, groupId, taskId }: TaskProps) => {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
-        id: id,
+        id: taskId,
         data: {
-            type: 'task',//必须要有这个类型
+            type: 'task',
+            groupId,
+            taskId,
             title,
         },
     });

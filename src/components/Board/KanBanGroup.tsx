@@ -10,6 +10,7 @@ export const KanBanGroup = ({ groupId, children }: KanBanGroupProps) => {
         id: groupId,
         data: {
             type: 'kanban-group',
+            groupId,
         },
     });
     return (
