@@ -7,7 +7,7 @@ export const BoardPage = () => {
     // className="flex flex-col gap-4 bg-red-500"
   return (
     <div className="flex flex-row flex-wrap gap-4 p-4">
-      <Button onClick={() => createBoard({ id: String(boards.length + 1), name: `Board ${boards.length + 1}` })}>Create Board</Button>
+        <Button onClick={() => createBoard({ groupId: String(boards.length + 1), groupName: `分组${boards.length + 1}`, tasks: [] })}>创建分组</Button>
         <Board />
     </div>
   );

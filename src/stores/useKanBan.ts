@@ -1,8 +1,14 @@
 import { create } from "zustand";
 
+type Task = {
+    id: string|number;
+    title: string;
+}
+
 interface Board {
-    id: string;
-    name: string;
+    groupId: string;
+    groupName: string;
+    tasks: Task[];
 }
 //集中状态管理
 export const useKanBan = create<{
