@@ -1,19 +1,19 @@
-import { useDraggable } from "@dnd-kit/core";
+import { useDroppable } from "@dnd-kit/core";
 
 interface KanBanGroupProps extends React.PropsWithChildren {
     title: string;
+    groupId: string;
 }   
-export const KanBanGroup = ({ title, children }: KanBanGroupProps) => {
+export const KanBanGroup = ({ groupId, children }: KanBanGroupProps) => {
 
-    const {setNodeRef } = useDraggable({
-        id: 'kanban-group',
+    const { setNodeRef } = useDroppable({
+        id: groupId,
         data: {
-            type: 'kanban-group',//必须要有这个类型
+            type: 'kanban-group',
         },
     });
     return (
         <div ref={setNodeRef}>
-            {/* {title} */}
             {children}
         </div>
     )
