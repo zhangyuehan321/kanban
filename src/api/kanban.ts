@@ -1,5 +1,9 @@
 import type { Board, Task } from "@/types/kanban";
 
+const API_BASE = (import.meta.env.VITE_API_URL ?? "").replace(/\/$/, "");
+
+const apiUrl = (path: string) => `${API_BASE}${path}`;
+
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
   const response = await fetch(url, {
     headers: { "Content-Type": "application/json" },
@@ -15,34 +19,34 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
 }
 
 export const kanbanApi = {
-  getBoards: () => request<Board[]>("/api/boards"),
+  getBoards: () => request<Board[]>(apiUrl("/api/boards")),
 
   createBoard: (groupName: string) =>
-    request<Board>("/api/boards", {
+    request<Board>(apiUrl("/api/boards"), {
       method: "POST",
       body: JSON.stringify({ groupName }),
     }),
 
   createTask: (groupId: string, title?: string) =>
-    request<Task>(`/api/boards/${groupId}/tasks`, {
+    request<Task>(apiUrl(`/api/boards/${groupId}/tasks`), {
       method: "POST",
       body: JSON.stringify({ title }),
     }),
 
   moveTask: (taskId: string, fromGroupId: string, toGroupId: string) =>
-    request<Board[]>("/api/tasks/move", {
+    request<Board[]>(apiUrl("/api/tasks/move"), {
       method: "PATCH",
       body: JSON.stringify({ taskId, fromGroupId, toGroupId }),
     }),
 
   reorderTask: (groupId: string, activeTaskId: string, overTaskId?: string) =>
-    request<Board[]>("/api/tasks/reorder", {
+    request<Board[]>(apiUrl("/api/tasks/reorder"), {
       method: "PATCH",
       body: JSON.stringify({ groupId, activeTaskId, overTaskId }),
     }),
 
   reorderGroups: (activeGroupId: string, overGroupId: string) =>
-    request<Board[]>("/api/boards/reorder", {
+    request<Board[]>(apiUrl("/api/boards/reorder"), {
       method: "PATCH",
       body: JSON.stringify({ activeGroupId, overGroupId }),
     }),

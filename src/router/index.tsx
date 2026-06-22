@@ -18,4 +18,6 @@ const routes = [
 //createHashRouter
 //createMemoryRouter
 //createStaticRouter
-export const router = createBrowserRouter(routes)
+export const router = createBrowserRouter(routes, {
+  basename: import.meta.env.BASE_URL.replace(/\/$/, '') || undefined,
+})
