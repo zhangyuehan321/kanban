@@ -6,6 +6,7 @@ import { Board } from "@/components/Board";
 export const BoardPage = () => {
   const { boards, loading, error, fetchBoards, createBoard } = useKanBan();
 
+  // 进入页面时从后端接口加载看板数据
   useEffect(() => {
     fetchBoards();
   }, [fetchBoards]);

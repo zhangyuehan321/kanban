@@ -12,6 +12,7 @@ export default defineConfig({
     },
   },
   server: {
+    // 开发环境：将 /api 请求代理到本地 Node 后端（server/index.mjs）
     proxy: {
       '/api': {
         target: 'http://localhost:3001',
