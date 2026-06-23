@@ -1,6 +1,6 @@
-import { useDraggable } from "@dnd-kit/core";
+import { useDraggable } from '@dnd-kit/core';
 
-interface TaskProps {   
+interface TaskProps {
     title: string;
     groupId: string;
     taskId: string;
@@ -13,12 +13,14 @@ export const Task = ({ title, groupId, taskId }: TaskProps) => {
             type: 'task',
             groupId,
             taskId,
-            title,
-        },
+            title
+        }
     });
-    const style:React.CSSProperties|undefined = transform ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-    } : undefined;
+    const style: React.CSSProperties | undefined = transform
+        ? {
+              transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`
+          }
+        : undefined;
     return (
         <div
             {...attributes}
@@ -29,5 +31,5 @@ export const Task = ({ title, groupId, taskId }: TaskProps) => {
         >
             {title}
         </div>
-    )
-}
+    );
+};

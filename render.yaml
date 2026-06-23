@@ -1,12 +1,12 @@
 services:
-  - type: web
-    name: kanban-api
-    runtime: node
-    plan: free
-    buildCommand: echo "No build step"
-    startCommand: node server/index.mjs
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: ALLOWED_ORIGINS
-        value: https://zhangyuehan321.github.io,http://localhost:5173
+    - type: web
+      name: kanban-api
+      runtime: node
+      plan: free
+      buildCommand: echo "No build step"
+      startCommand: node server/index.mjs
+      envVars:
+          - key: NODE_ENV
+            value: production
+          - key: ALLOWED_ORIGINS
+            value: https://zhangyuehan321.github.io,http://localhost:5173

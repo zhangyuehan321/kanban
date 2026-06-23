@@ -1,23 +1,24 @@
-import { useKanBan } from "@/stores/useKanBan";
-import { Task } from "./Task";
-import { DndContext, type DragEndEvent } from "@dnd-kit/core";
-import { KanBanGroup } from "./KanBanGroup";
+import { useKanBan } from '@/stores/useKanBan';
+import { Task } from './Task';
+import { DndContext, type DragEndEvent } from '@dnd-kit/core';
+import { KanBanGroup } from './KanBanGroup';
 
 const getTargetGroupId = (
     overId: string | number,
-    overData: { type?: string; groupId?: string } | undefined,
+    overData: { type?: string; groupId?: string } | undefined
 ) => {
-    if (overData?.type === "kanban-group") {
+    if (overData?.type === 'kanban-group') {
         return overData.groupId as string;
     }
-    if (overData?.type === "task") {
+    if (overData?.type === 'task') {
         return overData.groupId as string;
     }
     return String(overId);
 };
 
 export const Board = () => {
-    const { boards, createTask, moveTask, reorderTask, moveGroup } = useKanBan();
+    const { boards, createTask, moveTask, reorderTask, moveGroup } =
+        useKanBan();
 
     const handleDragEnd = ({ active, over }: DragEndEvent) => {
         if (!over) return;
@@ -25,7 +26,7 @@ export const Board = () => {
         const activeData = active.data.current;
         const overData = over.data.current;
 
-        if (activeData?.type === "kanban-group") {
+        if (activeData?.type === 'kanban-group') {
             const activeGroupId = activeData.groupId as string;
             const overGroupId = getTargetGroupId(over.id, overData);
 
@@ -35,7 +36,7 @@ export const Board = () => {
             return;
         }
 
-        if (activeData?.type !== "task") return;
+        if (activeData?.type !== 'task') return;
 
         const fromGroupId = activeData.groupId as string;
         const taskId = String(activeData.taskId);
@@ -44,7 +45,7 @@ export const Board = () => {
         if (!fromGroupId || !taskId || !toGroupId) return;
 
         if (fromGroupId === toGroupId) {
-            if (overData?.type === "task") {
+            if (overData?.type === 'task') {
                 const overTaskId = String(overData.taskId);
                 if (taskId !== overTaskId) {
                     reorderTask(fromGroupId, taskId, overTaskId);
@@ -61,15 +62,19 @@ export const Board = () => {
     return (
         <DndContext onDragEnd={handleDragEnd}>
             <div className="flex flex-row">
-                {boards.map((board) => (
-                    <KanBanGroup key={board.groupId} title={board.groupName} groupId={board.groupId}>
+                {boards.map(board => (
+                    <KanBanGroup
+                        key={board.groupId}
+                        title={board.groupName}
+                        groupId={board.groupId}
+                    >
                         <div className="kanban-group mr-1 min-h-48 w-[260px] rounded-xl bg-fuchsia-100 p-4">
                             <div className="flex flex-col">
                                 <div className="mb-2 w-fit rounded-full bg-fuchsia-300 px-1">
                                     未开始
                                 </div>
                                 <div>
-                                    {board.tasks.map((item) => (
+                                    {board.tasks.map(item => (
                                         <Task
                                             key={item.id}
                                             groupId={board.groupId}
@@ -80,7 +85,9 @@ export const Board = () => {
                                 </div>
                             </div>
                         </div>
-                        <button onClick={() => createTask(board.groupId)}>创建任务</button>
+                        <button onClick={() => createTask(board.groupId)}>
+                            创建任务
+                        </button>
                     </KanBanGroup>
                 ))}
             </div>

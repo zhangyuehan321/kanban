@@ -1,4 +1,4 @@
-import { useDraggable, useDroppable } from "@dnd-kit/core";
+import { useDraggable, useDroppable } from '@dnd-kit/core';
 
 interface KanBanGroupProps extends React.PropsWithChildren {
     title: string;
@@ -6,20 +6,26 @@ interface KanBanGroupProps extends React.PropsWithChildren {
 }
 
 export const KanBanGroup = ({ title, groupId, children }: KanBanGroupProps) => {
-    const { attributes, listeners, setNodeRef: setDragRef, transform, isDragging } = useDraggable({
+    const {
+        attributes,
+        listeners,
+        setNodeRef: setDragRef,
+        transform,
+        isDragging
+    } = useDraggable({
         id: `group-${groupId}`,
         data: {
-            type: "kanban-group",
-            groupId,
-        },
+            type: 'kanban-group',
+            groupId
+        }
     });
 
     const { setNodeRef: setDropRef } = useDroppable({
         id: groupId,
         data: {
-            type: "kanban-group",
-            groupId,
-        },
+            type: 'kanban-group',
+            groupId
+        }
     });
 
     const setNodeRef = (node: HTMLDivElement | null) => {
@@ -28,8 +34,10 @@ export const KanBanGroup = ({ title, groupId, children }: KanBanGroupProps) => {
     };
 
     const style: React.CSSProperties = {
-        transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
-        opacity: isDragging ? 0.5 : 1,
+        transform: transform
+            ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+            : undefined,
+        opacity: isDragging ? 0.5 : 1
     };
 
     return (
